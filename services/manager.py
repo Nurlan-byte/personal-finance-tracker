@@ -3,7 +3,6 @@ from models.expenses import Expense
 
 class Manager:
     def __init__(self):
-        
         self.transactions = []
         
     def add_transaction(self, transaction):
@@ -13,7 +12,7 @@ class Manager:
         sum = 0
         for i in self.transactions:
             if isinstance(i, Income):
-                balance += i.get_amount()
+                sum += i.get_amount()
             elif isinstance(i, Expense):
-                balance -= i.get_amount()
-        return balance
+                sum -= i.get_amount()
+        return sum
