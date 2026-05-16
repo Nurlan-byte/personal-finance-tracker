@@ -3,10 +3,14 @@ from .transactions import Transaction
 
 class Income(Transaction):
     
-    def __init__(self, amount, date, inc_category = "general"):
+    def __init__(self, amount, date, source = "general"):
         super().__init__(amount, date)
-        self.inc_category = inc_category
+        self.source = source
         
     def get_other(self):
-        return super().get_other()
+        details = super().get_details()
+        details["type"] = "income"
+        details["source"] = self.source
+        
+        return details
     

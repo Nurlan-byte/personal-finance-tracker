@@ -8,4 +8,8 @@ class Expense(Transaction):
         self.category = category
         
     def get_other(self):
-        return super().get_other()
+        details = super().get_details()
+        details["type"] = "expense"
+        details["category"] = self.category
+        
+        return details

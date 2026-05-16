@@ -19,5 +19,9 @@ class Transaction:
     def get_amount(self):
         return self._amount
     
-    def get_other(self):
-        pass
+    def get_details(self):
+        return {
+            "id": self.__id,
+            "amount": self._amount,
+            "date": self._date
+        }
