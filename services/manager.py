@@ -16,3 +16,4 @@ class Manager:
             elif isinstance(i, Expense):
                 sum -= i.get_amount()
         return sum
+    
