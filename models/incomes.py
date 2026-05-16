@@ -1,5 +1,5 @@
 
-from transactions import Transaction
+from .transactions import Transaction
 
 class Income(Transaction):
     
