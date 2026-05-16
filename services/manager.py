@@ -27,3 +27,12 @@ class Manager:
                 expenses.append(transaction)
 
         return expenses
+
+    def get_incomes(self):
+        incomes = []
+
+        for transaction in self.transactions:
+            if transaction.__class__.__name__ == "Income":
+                incomes.append(transaction)
+
+        return incomes
