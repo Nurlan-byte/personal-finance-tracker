@@ -7,15 +7,17 @@ class Transaction:
         self.date = date
         
         
-    def set_transaction(self):
-        # TODO: setter 
-        pass
+    def set_date(self, date):
+        self.date = date
     
-    def get_transaction(self):
-        pass
+    def get_date(self):
+        return self.date
     
-    def set_amount(self):
-        pass
+    def set_amount(self, amount):
+        self.amount = amount
     
     def get_amount(self):
+        return self.amount
+    
+    def get_other(self):
         pass
