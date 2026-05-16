@@ -18,3 +18,12 @@ class Manager:
                 balance = balance - amount
 
         return balance
+
+    def get_expenses(self):
+        expenses = []
+
+        for transaction in self.transactions:
+            if transaction.__class__.__name__ == "Expense":
+                expenses.append(transaction)
+
+        return expenses
