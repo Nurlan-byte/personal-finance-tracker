@@ -1,5 +1,6 @@
-def manager():
-    print("Start")
-    
-if __name__ == "__main__":
-    manager()
+class Manager:
+    def __init__(self):
+        self.transactions = []
+
+    def add_transaction(self, transaction):
+        self.transactions.append(transaction)
