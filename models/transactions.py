@@ -4,6 +4,7 @@ class Transaction:
     def __init__(self,  amount, date="14.05.2026"):
         self._amount = amount
         self.__id = Transaction._id_counter
+        Transaction._id_counter += 1
         self._date = date
         
         
