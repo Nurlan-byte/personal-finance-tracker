@@ -1,6 +1,7 @@
 from services.manager import Manager
 from models.incomes import Income
 from models.expenses import Expense
+from services.data_service import save_transactions
 
 def print_menu():
     print("\n" + "="*30)
@@ -18,14 +19,13 @@ def print_menu():
 def main():
     print("Welcome to your personal finance tracker Gnom")
     myfinances = Manager()
-    OVERSPENDING_LIMIT = 50000 
 
     while True:
         print_menu()
         choice = input("Select an option (1-7): ").strip()
 
         if choice == "1":
-            print(f"\nCurrent Balance: {myfinances.get_balance()} tenge")
+            print(f"\nCurrent Balance: {myfinances.balance} tenge")
 
         elif choice == "2":
             try:
@@ -56,7 +56,7 @@ def main():
             if hasattr(myfinances, 'get_category_breakdown'):
                 myfinances.get_category_breakdown()
             else:
-                print(f"Total Balance: {myfinances.get_balance()} tenge")
+                print(f"Total Balance: {myfinances.balance()} tenge")
                 print("Detailed breakdown is available in transactions.json")
 
         elif choice == "5":
@@ -65,15 +65,31 @@ def main():
             print("Summary function executed. Please check transactions.json for updates.")
 
         elif choice == "6":
-            total_balance = myfinances.get_balance()
-            print(f"\nChecking Limits (Current limit: {OVERSPENDING_LIMIT} tenge)")
-            if total_balance < 0:
-                print("⚠ WARNING: Negative balance detected! Overspending alert!")
-            else:
-                print("✓ Expenses are within normal limits.")
+            change_limit = input(f"Do you want to update your spending limit (limit now:{myfinances.limit})\n (y/n): ").strip().lower()
+            if change_limit == "y":
+                try:
+                    new_limit = float(input("Enter new limit: "))
+                    myfinances.limit = new_limit
+                    print(f"Limit updated to {myfinances.limit}")
+                except ValueError:
+                    print(f"Invalid amount. Keeping the old limit {myfinances.limit}")
+                
+            overspending = myfinances.is_overspending()
+            print(f"Current limit: {overspending['limit']}")
+            print(f"Total expenses: {overspending['total_expenses']} tenge")
+
+            if overspending["is_overspend"]:
+                print("Warning: You have exceeded your spending limit!")
+            elif not overspending["is_overspend"]:
+                print("Expenses are within limits")
 
         elif choice == "7":
-            print("\nData saved. Exiting program. Goodbye!")
+            print("Saving data")
+            is_saved = save_transactions(myfinances.transactions)
+            if is_saved:
+                print("\nData saved. Exiting program. Goodbye!")
+            else:
+                print("Unexpected error: data didnt saved")
             break
         else:
             print("Invalid option, please try again.")

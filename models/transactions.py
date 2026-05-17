@@ -26,4 +26,4 @@ class Transaction:
         }
         
     def sign_amount(self):
-        return self._amount
+        return self.amount
