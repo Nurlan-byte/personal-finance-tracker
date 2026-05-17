@@ -1,13 +1,30 @@
 [
     {
+        "id": 1,
+        "amount": 20.0,
+        "date": "2026-05-01",
         "type": "expense",
-        "category": "food",
-        "amount": 20,
-        "date": "2026-05-01"
+        "category": "food"
     },
     {
+        "id": 2,
+        "amount": 1000.0,
+        "date": "2026-05-01",
         "type": "income",
-        "amount": 1000,
-        "date": "2026-05-01"
+        "source": "general"
+    },
+    {
+        "id": 3,
+        "amount": 1500.0,
+        "date": "2026-05-17",
+        "type": "income",
+        "source": ""
+    },
+    {
+        "id": 4,
+        "amount": 500.0,
+        "date": "2026-05-17",
+        "type": "expense",
+        "category": ""
     }
 ]
