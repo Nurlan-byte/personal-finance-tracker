@@ -1,7 +1,22 @@
 
-from transactions import Transaction
+from .transactions import Transaction
 
 class Expense(Transaction):
     
-    def __init__(self, category):
-        pass
+    def __init__(self, amount, date, category):
+        super().__init__(amount, date)
+        self._category = category
+        
+    @property
+    def category(self): 
+        return self._category 
+        
+    def get_details(self):
+        details = super().get_details()
+        details["type"] = "expense"
+        details["category"] = self.category
+        
+        return details
+    
+    def sign_amount(self):
+        return -self.amount
