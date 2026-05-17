@@ -15,8 +15,24 @@ def load_transactions():
 def save_transactions(transactions_list):
     try:
         os.makedirs(os.path.dirname(DATA_FILE), exist_ok=True)
+<<<<<<< Updated upstream
+=======
+        
+        prepared_list = []
+        for t in transactions_list:
+            if hasattr(t, "get_details"):
+                prepared_list.append(t.get_details())
+            elif isinstance(t, dict):
+                prepared_list.append(t)
+            else:
+                try:
+                    prepared_list.append(t.__dict__)
+                except Exception:
+                    prepared_list.append(t)
+
+>>>>>>> Stashed changes
         with open(DATA_FILE, "w", encoding="utf-8") as file:
-            json.dump(transactions_list, file, indent=4, ensure_ascii=False)
+            json.dump(prepared_list, file, indent=4, ensure_ascii=False)
         return True
     except Exception:
         return False
