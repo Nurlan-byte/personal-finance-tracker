@@ -1,11 +1,11 @@
 # Personal Finance Tracker
 
-A command-line Python application for tracking personal income and expenses, storing
-transactions in JSON, calculating balances, generating monthly summaries, showing
-category breakdowns, and detecting overspending.
+Personal Finance Tracker is a command-line Python application for managing income
+and expenses. The program helps users record transactions, calculate balance, group
+expenses by category, generate monthly summaries, and detect overspending.
 
-This project was created for the **Introduction to Programming 2 (Python)** final
-project. It implements **Case 3: Personal Finance Tracker**.
+This project was built for the **Introduction to Programming 2 (Python)** final
+project and implements **Case 3: Personal Finance Tracker**.
 
 ## Team Members
 
@@ -14,31 +14,78 @@ project. It implements **Case 3: Personal Finance Tracker**.
 - Bakdaulet Begaliev
 - Dias Sabit
 
-## Problem Description
+## Project Goal
 
-Many people record their spending manually or do not track it at all. This makes it
-hard to understand where money goes each month and whether expenses are becoming too
-high. The Personal Finance Tracker solves this by letting users:
+The goal of this project is to simulate a real personal finance tracking system.
+Instead of storing information only while the program is running, the application
+saves transaction data in a JSON file and loads it again when the program starts.
 
-- add income transactions;
-- add expense transactions;
-- group expenses by category;
-- check the current balance;
-- view monthly summaries;
-- detect when total expenses exceed a chosen limit;
-- save and load data automatically from a JSON file.
+The project demonstrates:
+
+- clean Python module structure;
+- object-oriented programming;
+- file handling with JSON;
+- input validation and exception handling;
+- practical use of collections;
+- basic algorithmic efficiency;
+- unit testing with `unittest`.
 
 ## Main Features
 
-- **Current balance**: calculates total income minus total expenses.
-- **Add income**: stores amount, date, and source.
-- **Add expense**: stores amount, date, and category.
-- **Category breakdown**: shows how much was spent in each expense category.
-- **Monthly summary**: shows income, expenses, and balance for a selected month.
-- **Overspending detection**: compares total expenses with a configurable limit.
-- **JSON persistence**: saves transactions to `data/transactions.json`.
-- **Input validation**: validates dates, amounts, and overspending limits.
-- **Unit tests**: tests important finance calculations and edge cases.
+- Add income transactions with amount, date, and source.
+- Add expense transactions with amount, date, and category.
+- View current balance.
+- View total income and total expenses.
+- View category breakdown for expenses.
+- View unique expense categories.
+- Generate monthly summaries by `YYYY-MM`.
+- Detect overspending using a configurable spending limit.
+- Save transactions to `data/transactions.json`.
+- Load saved transactions when the program starts.
+- Run automated unit tests.
+
+## How To Run
+
+This project has no external library dependencies. Python standard library is
+enough.
+
+1. Clone the repository:
+
+```bash
+git clone <repository-url>
+cd personal-finance-tracker
+```
+
+2. Run the program:
+
+```bash
+python main.py
+```
+
+3. Use the menu:
+
+```text
+1. View Current Balance
+2. Add Income
+3. Add Expense
+4. View Category Breakdown & Stats
+5. View Monthly Summary
+6. Check for Overspending
+7. Exit
+```
+
+## How To Run Tests
+
+```bash
+python -m unittest tests.test
+```
+
+Current expected result:
+
+```text
+Ran 10 tests
+OK
+```
 
 ## Project Structure
 
@@ -61,47 +108,18 @@ personal-finance-tracker/
 `-- README.md
 ```
 
-## How To Run
+## Module Responsibilities
 
-1. Clone the repository:
-
-```bash
-git clone <repository-url>
-cd personal-finance-tracker
-```
-
-2. Run the application:
-
-```bash
-python main.py
-```
-
-3. Choose an option from the menu:
-
-```text
-1. View Current Balance
-2. Add Income
-3. Add Expense
-4. View Category Breakdown & Stats
-5. View Monthly Summary
-6. Check for Overspending
-7. Exit
-```
-
-## How To Run Tests
-
-Run the unit tests with:
-
-```bash
-python -m unittest tests.test
-```
-
-Expected result:
-
-```text
-Ran 5 tests
-OK
-```
+| File | Responsibility |
+| --- | --- |
+| `main.py` | Runs the command-line menu and handles user interaction. |
+| `models/transactions.py` | Contains the base `Transaction` class. |
+| `models/incomes.py` | Contains the `Income` class. |
+| `models/expenses.py` | Contains the `Expense` class. |
+| `services/manager.py` | Contains the main finance logic and calculations. |
+| `services/data_service.py` | Loads and saves transactions using JSON. |
+| `utils/helpers.py` | Validates dates and amounts. |
+| `tests/test.py` | Contains automated unit tests. |
 
 ## Example JSON Data
 
@@ -128,81 +146,127 @@ Transactions are stored in `data/transactions.json`.
 
 ## Object-Oriented Design
 
-The project uses object-oriented programming to model financial transactions.
+The project uses four main classes:
 
-### `Transaction`
+| Class | Purpose |
+| --- | --- |
+| `Transaction` | Base class for all financial transactions. |
+| `Income` | Child class for money received by the user. |
+| `Expense` | Child class for money spent by the user. |
+| `Manager` | Service class that stores transactions and calculates reports. |
 
-Base class for all transactions. It stores common fields:
+### Encapsulation
 
-- transaction id;
+Transaction data is stored in protected/private fields:
+
+- `_amount`
+- `_date`
+- `_source`
+- `_category`
+- `__id`
+
+The program uses properties such as `amount`, `date`, `source`, `category`, and
+`limit` to control access to important values.
+
+### Inheritance
+
+`Income` and `Expense` both inherit from `Transaction`.
+
+This avoids duplicating shared fields such as:
+
 - amount;
-- date.
+- date;
+- transaction id.
 
-It also provides shared methods such as `get_details()` and `sign_amount()`.
+### Polymorphism
 
-### `Income`
+Both `Income` and `Expense` implement `sign_amount()`, but they behave differently:
 
-Derived from `Transaction`. It represents money received by the user.
+```python
+Income.sign_amount()   # returns a positive amount
+Expense.sign_amount()  # returns a negative amount
+```
 
-- Adds a `source` field.
-- Overrides `get_details()`.
-- Overrides `sign_amount()` to return a positive amount.
+Because of this, the balance can be calculated with one simple expression:
 
-### `Expense`
+```python
+sum(t.sign_amount() for t in self.transactions)
+```
 
-Derived from `Transaction`. It represents money spent by the user.
+## Requirement Coverage
 
-- Adds a `category` field.
-- Overrides `get_details()`.
-- Overrides `sign_amount()` to return a negative amount.
+| Requirement | How It Is Covered |
+| --- | --- |
+| Functions | Functions and methods are used across all modules. |
+| Arguments and return values | Methods such as `get_monthly_summary(month)` return dictionaries with calculated data. |
+| Control flow | The menu uses conditions and loops; calculations use loops and filtering. |
+| Error handling | Invalid dates, negative amounts, bad limits, and broken JSON are handled. |
+| OOP | `Transaction`, `Income`, `Expense`, and `Manager` are used. |
+| Encapsulation | Protected/private fields and properties are used. |
+| Inheritance | `Income` and `Expense` inherit from `Transaction`. |
+| Polymorphism | `sign_amount()` behaves differently for income and expense. |
+| Lists | `Manager.transactions` stores all transaction objects. |
+| Dictionaries | Category breakdown and monthly summary use dictionaries. |
+| Tuples | `get_category_report_rows()` returns fixed report rows as tuples. |
+| Sets | `get_unique_categories()` returns unique categories as a set. |
+| File handling | Transactions are loaded from and saved to JSON. |
+| Modules | Code is split into `models`, `services`, `utils`, and `tests`. |
+| Testing | `tests/test.py` uses `unittest`. |
+| Advanced Python | Uses properties, lambdas, `map`, `filter`, and generator expressions. |
 
-### `Manager`
+## Collections And Data Structures
 
-Service class that controls the main finance logic:
+The project uses several data structures for clear reasons.
 
-- stores all transactions;
-- calculates balance;
-- separates income and expenses;
-- generates category breakdowns;
-- creates monthly summaries;
-- detects overspending.
+### List
 
-## OOP Concepts Used
+`Manager.transactions` is a list because transactions must be stored together and
+processed in order.
 
-- **Encapsulation**: transaction fields such as `_amount`, `_date`, `_source`, and
-  `_category` are protected and accessed through properties.
-- **Inheritance**: `Income` and `Expense` inherit from `Transaction`.
-- **Polymorphism**: `Income` and `Expense` both implement `sign_amount()`, but each
-  class returns the amount differently.
+```python
+self.transactions = []
+```
 
-## Data Structures Used
+### Dictionary
 
-- **List**: `Manager.transactions` stores all transaction objects in order.
-- **Dictionary**: category breakdowns are stored as `{category: total_amount}` for
-  fast lookup and updating.
-- **List of dictionaries**: JSON data is loaded as a list of transaction records.
-- **Set**: `get_unique_categories()` returns unique expense categories without
-  duplicates, for example `{"food", "rent", "transport"}`.
-- **Tuple**: `get_category_report_rows()` returns stable report rows as tuples,
-  for example `(("food", 23000), ("rent", 80000))`.
+Category breakdown uses a dictionary:
 
-Dictionary usage is especially important in `get_category_breakdown()`. Instead of
-searching through all previous categories every time, the program updates totals by
-key. This keeps category aggregation efficient and simple.
+```python
+{
+    "food": 23500,
+    "rent": 80000,
+    "transport": 6500
+}
+```
 
-## Algorithms And Efficiency
+This is efficient because each category can be updated directly by key.
 
-The project avoids unnecessary nested loops in important calculations.
+### Set
 
-- Balance calculation uses `sum()` over transactions.
-- Expense and income filtering uses `filter()` with lambda expressions.
-- Category totals use a dictionary, making updates direct by category name.
-- Unique categories use a set, because sets automatically remove duplicates.
-- Category report rows use tuples, because each row is a fixed pair:
-  `(category, total_amount)`.
-- Monthly summary filters transactions by month and then sums income and expenses.
+Unique categories are stored in a set:
 
-Example optimization:
+```python
+{"food", "rent", "transport"}
+```
+
+A set is the right structure here because it automatically removes duplicates.
+
+### Tuple
+
+Category report rows are returned as a tuple:
+
+```python
+(("food", 23500), ("rent", 80000))
+```
+
+A tuple is suitable because each row is a fixed pair: `(category, total_amount)`.
+
+## Algorithmic Efficiency
+
+The most important efficiency decision is the use of a dictionary in
+`get_category_breakdown()`.
+
+Current approach:
 
 ```python
 if category in result:
@@ -211,88 +275,111 @@ else:
     result[category] = amount
 ```
 
-Using a dictionary allows direct access to a category total by key. Without a
-dictionary, the program would need to search through a list of existing categories
-for every expense. That approach can become close to `O(n * k)`, where `n` is the
-number of expenses and `k` is the number of categories. With a dictionary, each
-category update is usually `O(1)`, so the whole category breakdown is closer to
-`O(n)`.
+Why this is efficient:
+
+- A dictionary gives direct access to a category total by category name.
+- Updating a category is usually `O(1)`.
+- Processing all expenses is close to `O(n)`, where `n` is the number of expenses.
+
+A less efficient approach would store category totals in a list and search through
+that list for every expense. That can become close to `O(n * k)`, where `k` is the
+number of categories.
+
+Other efficiency choices:
+
+- `sum()` is used for total calculations.
+- `filter()` separates income and expenses clearly.
+- `map()` extracts amounts before summing.
+- A generator expression calculates balance without building an extra list.
+- A set comprehension collects unique categories in one pass.
 
 ## Advanced Python Features
 
-The project uses several Python features beyond the basics:
+The project uses these advanced Python features:
 
-- `@property` decorators for controlled access to fields;
-- lambda functions in filtering and mapping operations;
-- `map()` and `filter()` for income and expense calculations;
-- generator expression in balance calculation:
+- `@property` decorators for controlled field access;
+- lambda functions in `filter()` and `map()`;
+- generator expression in the `balance` property;
+- set comprehension in `get_unique_categories()`;
+- tuple conversion in `get_category_report_rows()`;
+- exception handling with `try` / `except`.
 
-```python
-sum(t.sign_amount() for t in self.transactions)
-```
+## Validation And Error Handling
 
-## Error Handling And Validation
+The application validates important input:
 
-The project handles invalid input in several places:
-
-- invalid amount values raise `ValueError`;
-- negative amounts are rejected;
-- invalid dates are rejected;
-- invalid overspending limits are rejected;
-- broken or missing JSON files return an empty transaction list instead of crashing;
+- amount must be numeric;
+- amount cannot be negative;
+- date must use `YYYY-MM-DD`;
+- spending limit must be a non-negative number;
+- missing JSON file returns an empty list;
+- invalid JSON returns an empty list;
 - invalid transaction records are skipped during loading.
 
-## File Handling
-
-The project reads and writes structured JSON data:
-
-- `load_transactions()` reads transaction data from `data/transactions.json`;
-- `save_transactions()` writes current transaction data back to JSON;
-- `os.makedirs()` creates the `data/` folder if it does not exist.
+This prevents the program from crashing during common user or file errors.
 
 ## Testing
 
-The test file `tests/test.py` uses the `unittest` module. Current tests cover:
+The test suite is written with `unittest`.
 
-- initial empty manager state;
+Tests cover:
+
+- empty manager state;
 - adding income;
 - adding expenses;
-- category breakdown calculation;
-- unique category set calculation;
+- balance calculation;
+- category breakdown;
+- unique category set;
 - tuple-based category report rows;
 - overspending detection;
-- monthly summary calculation.
+- monthly summary;
+- real `Income` and `Expense` objects;
+- negative amount validation;
+- invalid date validation;
+- zero-amount transaction;
+- JSON save and load behavior.
 
-These tests help verify the correctness of the main finance logic.
+## Example Output
+
+Example category report:
+
+```text
+--- STATISTICS & CATEGORIES ---
+Unique categories: 3
+Categories: food, rent, transport
+- Food: 23500 tenge
+- Rent: 80000 tenge
+- Transport: 6500 tenge
+```
+
+Example monthly summary:
+
+```text
+--- Monthly Summary for 2026-05 ---
+Total Income:   265000 tenge
+Total Expenses: 136500 tenge
+Month Balance:  128500 tenge
+```
 
 ## Team Contribution Breakdown
 
-- **Yussupov Nurlan**: manager service logic, statistics, overspending detection,
-  refactoring, and unit tests.
-- **Asylzhan Amangeldi**: manager fixes, transaction loading improvements, finance
-  calculations, and integration work.
-- **Bakdaulet Begaliev**: transaction model support, data handling, and validation.
-- **Dias Sabit**: command-line interface support, testing support, and project
-  polishing.
+| Team Member | Main Contribution |
+| --- | --- |
+| Yussupov Nurlan | Manager logic, statistics, overspending detection, refactoring, tests. |
+| Asylzhan Amangeldi | Manager fixes, transaction loading, calculations, integration. |
+| Bakdaulet Begaliev | Transaction models, data handling, validation support. |
+| Dias Sabit | Command-line interface support, tests, final polishing. |
 
-## Code Defense Notes
+## Presentation Guide
 
-During the code defense, each team member should be ready to explain:
+Recommended slide structure:
 
-- how `Transaction`, `Income`, and `Expense` demonstrate inheritance;
-- why `sign_amount()` is polymorphic;
-- how JSON loading and saving works;
-- why dictionaries are useful for category breakdowns;
-- how sets remove duplicate expense categories;
-- why tuples are suitable for fixed report rows;
-- how monthly summary filtering works;
-- what edge cases are covered by tests;
-- how invalid input is handled.
-
-## Future Improvements
-
-- Add editing and deleting existing transactions.
-- Add a search feature by category, source, or date.
-- Add CSV export for reports.
-- Add charts for monthly spending.
-- Add more tests for invalid input and JSON file handling.
+1. Problem description.
+2. Main features and demo flow.
+3. Project structure.
+4. OOP design: `Transaction`, `Income`, `Expense`, `Manager`.
+5. Data storage with JSON.
+6. Collections and efficiency decisions.
+7. Testing and edge cases.
+8. Team contribution breakdown.
+9. Future improvements
