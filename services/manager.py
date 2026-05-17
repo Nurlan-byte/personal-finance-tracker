@@ -12,8 +12,8 @@ class Manager:
         sum = 0
         for i in self.transactions:
             if isinstance(i, Income):
-                sum += i.get_amount()
+                sum += i._amount
             elif isinstance(i, Expense):
-                sum -= i.get_amount()
+                sum -= i._amount
         return sum
     

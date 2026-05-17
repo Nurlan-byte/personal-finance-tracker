@@ -8,16 +8,12 @@ class Transaction:
         self._date = date
         
         
-    def set_date(self, date):
-        self._date = date
-    
-    def get_date(self):
+    @property
+    def date(self):
         return self._date
-    
-    def set_amount(self, amount):
-        self._amount = amount
-    
-    def get_amount(self):
+        
+    @property
+    def amount(self):
         return self._amount
     
     def get_details(self):

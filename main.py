@@ -33,8 +33,8 @@ def main():
                 date = input("Enter date (YYYY-MM-DD or DD-MM-YYYY): ")
                 source = input("Enter income source: ")
                 
-                stipendia = Income(amount, date, source)
-                myfinances.add_transaction(stipendia)
+                new_income = Income(amount, date, source)
+                myfinances.add_transaction(new_income)
                 print("✓ Income added successfully!")
             except ValueError:
                 print("Error: Invalid amount entered.")
@@ -45,8 +45,8 @@ def main():
                 date = input("Enter date (YYYY-MM-DD or DD-MM-YYYY): ")
                 category = input("Enter expense category (e.g., food, car): ")
                 
-                benzin = Expense(amount, date, category)
-                myfinances.add_transaction(benzin)
+                new_outcome = Expense(amount, date, category)
+                myfinances.add_transaction(new_outcome)
                 print("✓ Expense added successfully!")
             except ValueError:
                 print("Error: Invalid amount entered.")

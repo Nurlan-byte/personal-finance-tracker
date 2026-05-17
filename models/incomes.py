@@ -7,7 +7,7 @@ class Income(Transaction):
         super().__init__(amount, date)
         self.source = source
         
-    def get_other(self):
+    def get_details(self):
         details = super().get_details()
         details["type"] = "income"
         details["source"] = self.source
