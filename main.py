@@ -42,7 +42,7 @@ def main():
         elif choice == "3":
             try:
                 amount = float(input("Enter expense amount: "))
-                date = input("Enter date (YYYY-MM-DD or DD-MM-YYYY): ")
+                date = input("Enter date (YYYY-MM-DD): ")
                 category = input("Enter expense category (e.g., food, car): ")
                 
                 new_outcome = Expense(amount, date, category)
