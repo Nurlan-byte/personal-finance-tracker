@@ -33,3 +33,25 @@ class Manager:
             balance = balance - expense.get_amount()
 
         return balance
+
+    def get_category_breakdown(self):
+        result = {}
+
+        for expense in self.get_expenses():
+            category = expense.category
+            amount = expense.get_amount()
+
+            if category in result:
+                result[category] = result[category] + amount
+            else:
+                result[category] = amount
+
+        return result
+
+    def get_total_expenses(self):
+        total = 0
+
+        for expense in self.get_expenses():
+            total = total + expense.get_amount()
+
+        return total
