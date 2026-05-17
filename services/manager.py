@@ -10,16 +10,22 @@ class Manager:
         
         data = data_service.load_transactions()
         for transaction in data:
-            if not isinstance(transaction, dict) or"type" not in transaction or "amount" not in transaction or "date" not in transaction:
+            try:
+                if not isinstance(transaction, dict) or"type" not in transaction or "amount" not in transaction or "date" not in transaction:
+                    continue
+                
+                if transaction["type"] == "income":
+                    new_income = Income(transaction["amount"], transaction["date"], transaction.get("source", "general"))
+                    self.transactions.append(new_income)
+                if transaction["type"] == "expense":
+                    new_expense = Expense(transaction["amount"], transaction["date"], transaction.get("category", "general"))
+                    self.transactions.append(new_expense)
+                else:
+                    continue
+            except Exception as e:
+                print(f"Skipping invalid transaction: {e}")
                 continue
             
-            if transaction["type"] == "income":
-                new_income = Income(transaction["amount"], transaction["date"], transaction.get("source", "general"))
-                self.transactions.append(new_income)
-            if transaction["type"] == "expense":
-                new_expense = Expense(transaction["amount"], transaction["date"], transaction.get("category", "general"))
-                self.transactions.append(new_expense)
-                
                 
     
     @property
