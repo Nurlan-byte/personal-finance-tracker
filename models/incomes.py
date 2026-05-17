@@ -5,7 +5,7 @@ class Income(Transaction):
     
     def __init__(self, amount, date, source = "general"):
         super().__init__(amount, date)
-        self.source = source
+        self._source = source
         
     @property
     def source(self):
@@ -14,7 +14,10 @@ class Income(Transaction):
     def get_details(self):
         details = super().get_details()
         details["type"] = "income"
-        details["source"] = self.source
+        details["source"] = self._source
         
         return details
+    
+    def sign_amount(self):
+        return self._amount
     
