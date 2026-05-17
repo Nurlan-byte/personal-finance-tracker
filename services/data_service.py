@@ -15,8 +15,8 @@ def load_transactions():
 def save_transactions(transactions_list):
     try:
         os.makedirs(os.path.dirname(DATA_FILE), exist_ok=True)
-<<<<<<< Updated upstream
-=======
+
+
         
         prepared_list = []
         for t in transactions_list:
@@ -30,7 +30,7 @@ def save_transactions(transactions_list):
                 except Exception:
                     prepared_list.append(t)
 
->>>>>>> Stashed changes
+
         with open(DATA_FILE, "w", encoding="utf-8") as file:
             json.dump(prepared_list, file, indent=4, ensure_ascii=False)
         return True
