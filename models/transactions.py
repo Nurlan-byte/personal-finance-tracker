@@ -24,3 +24,6 @@ class Transaction:
             "amount": self._amount,
             "date": self._date
         }
+        
+    def sign_amount(self):
+        return self._amount

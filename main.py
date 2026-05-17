@@ -25,7 +25,7 @@ def main():
         choice = input("Select an option (1-7): ").strip()
 
         if choice == "1":
-            print(f"\nCurrent Balance: {myfinances.get_balance()} tenge")
+            print(f"\nCurrent Balance: {myfinances.balance} tenge")
 
         elif choice == "2":
             try:
@@ -56,7 +56,7 @@ def main():
             if hasattr(myfinances, 'get_categories_breakdown'):
                 myfinances.get_categories_breakdown()
             else:
-                print(f"Total Balance: {myfinances.get_balance()} tenge")
+                print(f"Total Balance: {myfinances._balance} tenge")
                 print("Detailed breakdown is available in transactions.json")
 
         elif choice == "5":
@@ -65,7 +65,7 @@ def main():
             print("Summary function executed. Please check transactions.json for updates.")
 
         elif choice == "6":
-            total_balance = myfinances.get_balance()
+            total_balance = myfinances._balance
             print(f"\nChecking Limits (Current limit: {OVERSPENDING_LIMIT} tenge)")
             if total_balance < 0:
                 print("⚠ WARNING: Negative balance detected! Overspending alert!")
