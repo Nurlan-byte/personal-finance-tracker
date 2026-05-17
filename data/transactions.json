@@ -1,30 +1,142 @@
 [
     {
         "id": 1,
-        "amount": 20.0,
-        "date": "2026-05-01",
+        "amount": 250000.0,
+        "date": "2026-03-01",
+        "type": "income",
+        "source": "salary"
+    },
+    {
+        "id": 2,
+        "amount": 80000.0,
+        "date": "2026-03-02",
+        "type": "expense",
+        "category": "rent"
+    },
+    {
+        "id": 3,
+        "amount": 15000.0,
+        "date": "2026-03-05",
         "type": "expense",
         "category": "food"
     },
     {
-        "id": 2,
-        "amount": 1000.0,
+        "id": 4,
+        "amount": 4000.0,
+        "date": "2026-03-10",
+        "type": "expense",
+        "category": "transport"
+    },
+    {
+        "id": 5,
+        "amount": 12000.0,
+        "date": "2026-03-15",
+        "type": "expense",
+        "category": "entertainment"
+    },
+    {
+        "id": 6,
+        "amount": 50000.0,
+        "date": "2026-03-20",
+        "type": "income",
+        "source": "freelance"
+    },
+    {
+        "id": 7,
+        "amount": 22000.0,
+        "date": "2026-03-25",
+        "type": "expense",
+        "category": "food"
+    },
+    {
+        "id": 8,
+        "amount": 250000.0,
+        "date": "2026-04-01",
+        "type": "income",
+        "source": "salary"
+    },
+    {
+        "id": 9,
+        "amount": 80000.0,
+        "date": "2026-04-02",
+        "type": "expense",
+        "category": "rent"
+    },
+    {
+        "id": 10,
+        "amount": 18000.0,
+        "date": "2026-04-05",
+        "type": "expense",
+        "category": "utilities"
+    },
+    {
+        "id": 11,
+        "amount": 30000.0,
+        "date": "2026-04-12",
+        "type": "expense",
+        "category": "food"
+    },
+    {
+        "id": 12,
+        "amount": 6500.0,
+        "date": "2026-04-18",
+        "type": "expense",
+        "category": "transport"
+    },
+    {
+        "id": 13,
+        "amount": 45000.0,
+        "date": "2026-04-22",
+        "type": "expense",
+        "category": "shopping"
+    },
+    {
+        "id": 14,
+        "amount": 250000.0,
         "date": "2026-05-01",
         "type": "income",
-        "source": "general"
+        "source": "salary"
     },
     {
-        "id": 3,
-        "amount": 1500.0,
-        "date": "2026-05-17",
-        "type": "income",
-        "source": ""
-    },
-    {
-        "id": 4,
-        "amount": 500.0,
-        "date": "2026-05-17",
+        "id": 15,
+        "amount": 80000.0,
+        "date": "2026-05-02",
         "type": "expense",
-        "category": ""
+        "category": "rent"
+    },
+    {
+        "id": 16,
+        "amount": 15000.0,
+        "date": "2026-05-05",
+        "type": "income",
+        "source": "cashback"
+    },
+    {
+        "id": 17,
+        "amount": 14500.0,
+        "date": "2026-05-08",
+        "type": "expense",
+        "category": "food"
+    },
+    {
+        "id": 18,
+        "amount": 25000.0,
+        "date": "2026-05-12",
+        "type": "expense",
+        "category": "car"
+    },
+    {
+        "id": 19,
+        "amount": 8000.0,
+        "date": "2026-05-15",
+        "type": "expense",
+        "category": "entertainment"
+    },
+    {
+        "id": 20,
+        "amount": 9000.0,
+        "date": "2026-05-16",
+        "type": "expense",
+        "category": "food"
     }
 ]
