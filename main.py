@@ -19,7 +19,6 @@ def print_menu():
 def main():
     print("Welcome to your personal finance tracker Gnom")
     myfinances = Manager()
-    OVERSPENDING_LIMIT = 50000 
 
     while True:
         print_menu()
@@ -66,12 +65,23 @@ def main():
             print("Summary function executed. Please check transactions.json for updates.")
 
         elif choice == "6":
-            total_balance = myfinances.balance()
-            print(f"\nChecking Limits (Current limit: {OVERSPENDING_LIMIT} tenge)")
-            if total_balance < 0:
-                print("⚠ WARNING: Negative balance detected! Overspending alert!")
-            else:
-                print("✓ Expenses are within normal limits.")
+            change_limit = input(f"Do you want to update your spending limit (limit now:{myfinances.limit})\n (y/n): ").strip().lower()
+            if change_limit == "y":
+                try:
+                    new_limit = float(input("Enter new limit: "))
+                    myfinances.limit = new_limit
+                    print(f"Limit updated to {myfinances.limit}")
+                except ValueError:
+                    print(f"Invalid amount. Keeping the old limit {myfinances.limit}")
+                
+            overspending = myfinances.is_overspending()
+            print(f"Current limit: {overspending['limit']}")
+            print(f"Total expenses: {overspending['total_expenses']} tenge")
+
+            if overspending["is_overspend"]:
+                print("Warning: You have exceeded your spending limit!")
+            elif not overspending["is_overspend"]:
+                print("Expenses are within limits")
 
         elif choice == "7":
             print("Saving data")
