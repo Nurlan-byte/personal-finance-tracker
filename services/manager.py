@@ -9,6 +9,9 @@ class Manager:
         
         data = data_service.load_transactions()
         for transaction in data:
+            if "type" not in transaction or "amount" not in transaction or "date" not in transaction:
+                continue
+            
             if transaction["type"] == "income":
                 new_income = Income(transaction["amount"], transaction["date"], transaction.get("source", "general"))
                 self.transactions.append(new_income)
