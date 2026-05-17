@@ -10,7 +10,7 @@ class Manager:
         
         data = data_service.load_transactions()
         for transaction in data:
-            if "type" not in transaction or "amount" not in transaction or "date" not in transaction:
+            if not isinstance(transaction, dict) or"type" not in transaction or "amount" not in transaction or "date" not in transaction:
                 continue
             
             if transaction["type"] == "income":
@@ -79,6 +79,8 @@ class Manager:
 
     @limit.setter
     def limit(self, new_limit):
+        if not isinstance(new_limit, (int, float)):
+            raise ValueError("Limit must be a number")
         if new_limit < 0:
             raise ValueError("Limit cannot be less than zero")
         self._limit = new_limit
@@ -89,12 +91,7 @@ class Manager:
 
         total_expenses = self.get_total_expenses()
 
-        if total_expenses > limit:
-            print("Warning: overspending detected")
-            return True
-
-        print("No overspending")
-        return False
+        return total_expenses > limit
 
     def get_statistics(self):
         return {
