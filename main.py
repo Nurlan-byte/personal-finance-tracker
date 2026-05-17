@@ -53,35 +53,39 @@ def main():
 
         elif choice == "4":
             print("\n--- STATISTICS & CATEGORIES ---")
-            if hasattr(myfinances, 'get_category_breakdown'):
-                myfinances.get_category_breakdown()
+            breakdown = myfinances.get_category_breakdown()
+            if not breakdown:
+                print("No expenses found.")
             else:
-                print(f"Total Balance: {myfinances.balance()} tenge")
-                print("Detailed breakdown is available in transactions.json")
+                for cat, amount in breakdown.items():
+                    print(f"- {cat.capitalize()}: {amount} tenge")
 
         elif choice == "5":
-            month = input("Enter month for summary (e.g., '05' or '2026-05'): ")
-            print(f"\n--- Monthly Summary for {month} ---")
-            print("Summary function executed. Please check transactions.json for updates.")
+            month = input("Enter month for summary (e.g., '2026-05'): ").strip()
+            summary = myfinances.get_monthly_summary(month) 
+            print(f"\n--- Monthly Summary for {summary['month']} ---")
+            print(f"Total Income:   {summary['total_income']} tenge")
+            print(f"Total Expenses: {summary['total_expenses']} tenge")
+            print(f"Month Balance:  {summary['balance']} tenge")
 
         elif choice == "6":
-            change_limit = input(f"Do you want to update your spending limit (limit now:{myfinances.limit})\n (y/n): ").strip().lower()
-            if change_limit == "y":
-                try:
-                    new_limit = float(input("Enter new limit: "))
-                    myfinances.limit = new_limit
-                    print(f"Limit updated to {myfinances.limit}")
-                except ValueError:
-                    print(f"Invalid amount. Keeping the old limit {myfinances.limit}")
+            print(f"\n--- OVERSPENDING CHECK ---")
+            print(f"Current expense limit: {myfinances.limit} tenge")
+            if myfinances.detect_overspending():
+                print("⚠ WARNING: Overspending detected! You exceeded your limit!")
+            elif myfinances.balance < 0:
+                print("⚠ WARNING: Negative total balance detected!")
+            else:
+                print("✓ Expenses are within normal limits.")
                 
-            overspending = myfinances.is_overspending()
-            print(f"Current limit: {overspending['limit']}")
-            print(f"Total expenses: {overspending['total_expenses']} tenge")
-
-            if overspending["is_overspend"]:
-                print("Warning: You have exceeded your spending limit!")
-            elif not overspending["is_overspend"]:
-                print("Expenses are within limits")
+            change = input("\nDo you want to change the limit? (y/n): ").strip().lower()
+            if change == 'y':
+                try:
+                    new_limit = float(input("Enter new overspending limit: "))
+                    myfinances.limit = new_limit
+                    print(f"✓ Limit successfully updated to {myfinances.limit} tenge!")
+                except ValueError as e:
+                    print(f"Error: {e}")
 
         elif choice == "7":
             print("Saving data")

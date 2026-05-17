@@ -1,8 +1,34 @@
+from services import data_service
+from models.transactions import Income, Expense
+
+
 class Manager:
     def __init__(self, limit=50000):
         self.transactions = []
         self.limit = limit
 
+
+        self.transactions = []
+        self._limit = 50000
+        
+        data = data_service.load_transactions()
+        for transaction in data:
+            if "type" not in transaction or "amount" not in transaction or "date" not in transaction:
+                continue
+            
+            if transaction["type"] == "income":
+                new_income = Income(transaction["amount"], transaction["date"], transaction.get("source", "general"))
+                self.transactions.append(new_income)
+            if transaction["type"] == "expense":
+                new_expense = Expense(transaction["amount"], transaction["date"], transaction.get("category", "general"))
+            self.transactions.append(new_expense)
+                
+                
+    
+    @property
+    def balance(self):
+        return sum(t.sign_amount() for t in self.transactions)
+    
     def add_transaction(self, transaction):
         self.transactions.append(transaction)
 
@@ -49,6 +75,17 @@ class Manager:
 
         return result
 
+
+    @property
+    def limit(self):
+        return self._limit
+
+    @limit.setter
+    def limit(self, new_limit):
+        if new_limit < 0:
+            raise ValueError("Limit cannot be less than zero")
+        self._limit = new_limit
+        
     def detect_overspending(self, limit=None):
         if limit is None:
             limit = self.limit
@@ -95,3 +132,4 @@ class Manager:
             "total_expenses": total_expenses,
             "balance": total_income - total_expenses
         }
+        
