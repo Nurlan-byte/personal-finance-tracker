@@ -73,3 +73,11 @@ class Manager:
         else:
             print("No overspending")
             return False
+
+    def get_statistics(self):
+        return {
+            "total_income": self.get_total_income(),
+            "total_expenses": self.get_total_expenses(),
+            "balance": self.get_balance(),
+            "category_breakdown": self.get_category_breakdown()
+        }
