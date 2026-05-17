@@ -57,6 +57,11 @@ class TestFinanceTracker(unittest.TestCase):
         breakdown = self.manager.get_category_breakdown()
         self.assertEqual(breakdown.get("food"), 5000)
         self.assertEqual(breakdown.get("car"), 1500)
+        self.assertEqual(self.manager.get_unique_categories(), {"food", "car"})
+        self.assertEqual(
+            self.manager.get_category_report_rows(),
+            (("car", 1500), ("food", 5000))
+        )
 
     def test_overspending_detection(self):
         self.manager.add_transaction(MockExpense(8000, "2026-05-17", "rent"))

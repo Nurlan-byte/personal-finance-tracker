@@ -11,13 +11,13 @@ class Manager:
         data = data_service.load_transactions()
         for transaction in data:
             try:
-                if not isinstance(transaction, dict) or"type" not in transaction or "amount" not in transaction or "date" not in transaction:
+                if not isinstance(transaction, dict) or "type" not in transaction or "amount" not in transaction or "date" not in transaction:
                     continue
                 
                 if transaction["type"] == "income":
                     new_income = Income(transaction["amount"], transaction["date"], transaction.get("source", "general"))
                     self.transactions.append(new_income)
-                if transaction["type"] == "expense":
+                elif transaction["type"] == "expense":
                     new_expense = Expense(transaction["amount"], transaction["date"], transaction.get("category", "general"))
                     self.transactions.append(new_expense)
                 else:
@@ -78,6 +78,11 @@ class Manager:
 
         return result
 
+    def get_unique_categories(self):
+        return {expense.category for expense in self.get_expenses()}
+
+    def get_category_report_rows(self):
+        return tuple(sorted(self.get_category_breakdown().items()))
 
     @property
     def limit(self):
@@ -104,7 +109,9 @@ class Manager:
             "total_income": self.get_total_income(),
             "total_expenses": self.get_total_expenses(),
             "balance": self.get_balance(),
-            "category_breakdown": self.get_category_breakdown()
+            "category_breakdown": self.get_category_breakdown(),
+            "unique_categories": self.get_unique_categories(),
+            "category_report_rows": self.get_category_report_rows()
         }
 
     def get_monthly_summary(self, month):
