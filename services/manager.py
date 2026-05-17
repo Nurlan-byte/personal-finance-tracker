@@ -63,3 +63,13 @@ class Manager:
             total = total + income.get_amount()
 
         return total
+
+    def detect_overspending(self, limit):
+        total_expenses = self.get_total_expenses()
+
+        if total_expenses > limit:
+            print("Warning: overspending detected")
+            return True
+        else:
+            print("No overspending")
+            return False
