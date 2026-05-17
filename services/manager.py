@@ -55,3 +55,11 @@ class Manager:
             total = total + expense.get_amount()
 
         return total
+
+    def get_total_income(self):
+        total = 0
+
+        for income in self.get_incomes():
+            total = total + income.get_amount()
+
+        return total
