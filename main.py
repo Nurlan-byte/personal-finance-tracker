@@ -1,6 +1,7 @@
 from services.manager import Manager
 from models.incomes import Income
 from models.expenses import Expense
+from services.data_service import save_transactions
 
 def print_menu():
     print("\n" + "="*30)
@@ -25,7 +26,7 @@ def main():
         choice = input("Select an option (1-7): ").strip()
 
         if choice == "1":
-            print(f"\nCurrent Balance: {myfinances.get_balance()} tenge")
+            print(f"\nCurrent Balance: {myfinances.balance} tenge")
 
         elif choice == "2":
             try:
@@ -56,7 +57,7 @@ def main():
             if hasattr(myfinances, 'get_category_breakdown'):
                 myfinances.get_category_breakdown()
             else:
-                print(f"Total Balance: {myfinances.get_balance()} tenge")
+                print(f"Total Balance: {myfinances.balance()} tenge")
                 print("Detailed breakdown is available in transactions.json")
 
         elif choice == "5":
@@ -65,7 +66,7 @@ def main():
             print("Summary function executed. Please check transactions.json for updates.")
 
         elif choice == "6":
-            total_balance = myfinances.get_balance()
+            total_balance = myfinances.balance()
             print(f"\nChecking Limits (Current limit: {OVERSPENDING_LIMIT} tenge)")
             if total_balance < 0:
                 print("⚠ WARNING: Negative balance detected! Overspending alert!")
@@ -73,7 +74,12 @@ def main():
                 print("✓ Expenses are within normal limits.")
 
         elif choice == "7":
-            print("\nData saved. Exiting program. Goodbye!")
+            print("Saving data")
+            is_saved = save_transactions(myfinances.transactions)
+            if is_saved:
+                print("\nData saved. Exiting program. Goodbye!")
+            else:
+                print("Unexpected error: data didnt saved")
             break
         else:
             print("Invalid option, please try again.")
