@@ -5,6 +5,12 @@ class Manager:
     def add_transaction(self, transaction):
         self.transactions.append(transaction)
 
+    def has_transactions(self):
+        if len(self.transactions) > 0:
+            return True
+        else:
+            return False
+
     def get_expenses(self):
         expenses = []
 
