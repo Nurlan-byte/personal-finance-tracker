@@ -1,15 +1,12 @@
 from services import data_service
-from models.transactions import Income, Expense
+from models.incomes import Income
+from models.expenses import Expense
 
 
 class Manager:
     def __init__(self, limit=50000):
         self.transactions = []
         self.limit = limit
-
-
-        self.transactions = []
-        self._limit = 50000
         
         data = data_service.load_transactions()
         for transaction in data:
@@ -21,7 +18,7 @@ class Manager:
                 self.transactions.append(new_income)
             if transaction["type"] == "expense":
                 new_expense = Expense(transaction["amount"], transaction["date"], transaction.get("category", "general"))
-            self.transactions.append(new_expense)
+                self.transactions.append(new_expense)
                 
                 
     
