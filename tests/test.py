@@ -3,7 +3,12 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import unittest
+import tempfile
+import json
 from services.manager import Manager
+from models.incomes import Income
+from models.expenses import Expense
+from services import data_service
 
 class MockTransaction:
     def __init__(self, amount, date):
@@ -79,6 +84,50 @@ class TestFinanceTracker(unittest.TestCase):
         self.assertEqual(summary_may["total_income"], 10000)
         self.assertEqual(summary_may["total_expenses"], 2000)
         self.assertEqual(summary_may["balance"], 8000)
+
+    def test_real_income_and_expense(self):
+        income = Income(2000, "2026-05-10")
+        expense = Expense(500, "2026-05-11", "transport")
+
+        self.manager.add_transaction(income)
+        self.manager.add_transaction(expense)
+
+        self.assertEqual(self.manager.balance, 1500)
+
+    def test_invalid_negative_income(self):
+        with self.assertRaises(ValueError):
+            Income(-1000, "2026-05-17")
+
+    def test_invalid_date_format(self):
+        with self.assertRaises(ValueError):
+            Expense(1000, "invalid-date", "food")
+
+    def test_zero_amount_transaction(self):
+        income = Income(0, "2026-05-20")
+        self.manager.add_transaction(income)
+
+        self.assertEqual(self.manager.balance, 0)
+
+    def test_save_and_load_json(self):
+        original_data_file = data_service.DATA_FILE
+
+        try:
+            with tempfile.TemporaryDirectory() as temp_dir:
+                data_service.DATA_FILE = os.path.join(temp_dir, "transactions.json")
+                self.manager.add_transaction(Income(5000, "2026-05-17"))
+
+                self.assertTrue(data_service.save_transactions(self.manager.transactions))
+
+                with open(data_service.DATA_FILE, "r", encoding="utf-8") as file:
+                    data = json.load(file)
+
+                self.assertEqual(data[0]["amount"], 5000)
+                self.assertEqual(data[0]["type"], "income")
+
+                new_manager = Manager()
+                self.assertEqual(new_manager.balance, 5000)
+        finally:
+            data_service.DATA_FILE = original_data_file
 
 
 if __name__ == "__main__":
