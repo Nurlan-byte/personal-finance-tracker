@@ -62,6 +62,9 @@ def main():
 
         elif choice == "5":
             month = input("Enter month for summary (e.g., '2026-05'): ").strip()
+            if not month:
+                print("Error: Month cannot be empty!")
+                continue
             summary = myfinances.get_monthly_summary(month) 
             print(f"\n--- Monthly Summary for {summary['month']} ---")
             print(f"Total Income:   {summary['total_income']} tenge")
