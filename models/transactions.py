@@ -1,11 +1,13 @@
+from utils import helpers
+
 class Transaction:
     _id_counter = 1
     
-    def __init__(self,  amount, date="14.05.2026"):
-        self._amount = amount
+    def __init__(self,  amount, date=None):
+        self._amount = helpers.amount_validate(amount)
         self.__id = Transaction._id_counter
         Transaction._id_counter += 1
-        self._date = date
+        self._date = helpers.date_validate(date)
         
         
     @property

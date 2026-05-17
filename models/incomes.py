@@ -7,6 +7,10 @@ class Income(Transaction):
         super().__init__(amount, date)
         self.source = source
         
+    @property
+    def source(self):
+        return self._source    
+        
     def get_details(self):
         details = super().get_details()
         details["type"] = "income"
