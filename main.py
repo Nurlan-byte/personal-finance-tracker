@@ -30,14 +30,14 @@ def main():
         elif choice == "2":
             try:
                 amount = float(input("Enter income amount: "))
-                date = input("Enter date (YYYY-MM-DD or DD-MM-YYYY): ")
+                date = input("Enter date (YYYY-MM-DD): ")
                 source = input("Enter income source: ")
                 
-                stipendia = Income(amount, date, source)
-                myfinances.add_transaction(stipendia)
+                new_income = Income(amount, date, source)
+                myfinances.add_transaction(new_income)
                 print("✓ Income added successfully!")
-            except ValueError:
-                print("Error: Invalid amount entered.")
+            except ValueError as e:
+                print(e)
 
         elif choice == "3":
             try:
@@ -45,16 +45,16 @@ def main():
                 date = input("Enter date (YYYY-MM-DD or DD-MM-YYYY): ")
                 category = input("Enter expense category (e.g., food, car): ")
                 
-                benzin = Expense(amount, date, category)
-                myfinances.add_transaction(benzin)
+                new_outcome = Expense(amount, date, category)
+                myfinances.add_transaction(new_outcome)
                 print("✓ Expense added successfully!")
-            except ValueError:
-                print("Error: Invalid amount entered.")
+            except ValueError as e:
+                print(e)
 
         elif choice == "4":
             print("\n--- STATISTICS & CATEGORIES ---")
-            if hasattr(myfinances, 'get_categories_breakdown'):
-                myfinances.get_categories_breakdown()
+            if hasattr(myfinances, 'get_category_breakdown'):
+                myfinances.get_category_breakdown()
             else:
                 print(f"Total Balance: {myfinances.get_balance()} tenge")
                 print("Detailed breakdown is available in transactions.json")
