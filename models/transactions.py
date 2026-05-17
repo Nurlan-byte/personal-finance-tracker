@@ -1,21 +1,29 @@
+from utils import helpers
+
 class Transaction:
     _id_counter = 1
     
-    def __init__(self,  amount, date="14.05.2026"):
-        self.__amount = amount
+    def __init__(self,  amount, date=None):
+        self._amount = helpers.amount_validate(amount)
         self.__id = Transaction._id_counter
-        self.date = date
+        Transaction._id_counter += 1
+        self._date = helpers.date_validate(date)
         
         
-    def set_transaction(self):
-        # TODO: setter 
-        pass
+    @property
+    def date(self):
+        return self._date
+        
+    @property
+    def amount(self):
+        return self._amount
     
-    def get_transaction(self):
-        pass
-    
-    def set_amount(self):
-        pass
-    
-    def get_amount(self):
-        pass
+    def get_details(self):
+        return {
+            "id": self.__id,
+            "amount": self._amount,
+            "date": self._date
+        }
+        
+    def sign_amount(self):
+        return self.amount
