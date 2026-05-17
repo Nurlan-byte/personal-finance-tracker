@@ -25,19 +25,19 @@ def main():
         choice = input("Select an option (1-7): ").strip()
 
         if choice == "1":
-            print(f"\nCurrent Balance: {myfinances.balance} tenge")
+            print(f"\nCurrent Balance: {myfinances.get_balance()} tenge")
 
         elif choice == "2":
             try:
                 amount = float(input("Enter income amount: "))
-                date = input("Enter date (YYYY-MM-DD or DD-MM-YYYY): ")
+                date = input("Enter date (YYYY-MM-DD): ")
                 source = input("Enter income source: ")
                 
                 new_income = Income(amount, date, source)
                 myfinances.add_transaction(new_income)
                 print("✓ Income added successfully!")
-            except ValueError:
-                print("Error: Invalid amount entered.")
+            except ValueError as e:
+                print(e)
 
         elif choice == "3":
             try:
@@ -48,15 +48,15 @@ def main():
                 new_outcome = Expense(amount, date, category)
                 myfinances.add_transaction(new_outcome)
                 print("✓ Expense added successfully!")
-            except ValueError:
-                print("Error: Invalid amount entered.")
+            except ValueError as e:
+                print(e)
 
         elif choice == "4":
             print("\n--- STATISTICS & CATEGORIES ---")
-            if hasattr(myfinances, 'get_categories_breakdown'):
-                myfinances.get_categories_breakdown()
+            if hasattr(myfinances, 'get_category_breakdown'):
+                myfinances.get_category_breakdown()
             else:
-                print(f"Total Balance: {myfinances._balance} tenge")
+                print(f"Total Balance: {myfinances.get_balance()} tenge")
                 print("Detailed breakdown is available in transactions.json")
 
         elif choice == "5":
@@ -65,7 +65,7 @@ def main():
             print("Summary function executed. Please check transactions.json for updates.")
 
         elif choice == "6":
-            total_balance = myfinances._balance
+            total_balance = myfinances.get_balance()
             print(f"\nChecking Limits (Current limit: {OVERSPENDING_LIMIT} tenge)")
             if total_balance < 0:
                 print("⚠ WARNING: Negative balance detected! Overspending alert!")

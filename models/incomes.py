@@ -14,10 +14,10 @@ class Income(Transaction):
     def get_details(self):
         details = super().get_details()
         details["type"] = "income"
-        details["source"] = self._source
+        details["source"] = self.source
         
         return details
     
     def sign_amount(self):
-        return self._amount
+        return self.amount
     

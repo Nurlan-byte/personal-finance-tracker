@@ -14,9 +14,9 @@ class Expense(Transaction):
     def get_details(self):
         details = super().get_details()
         details["type"] = "expense"
-        details["category"] = self._category
+        details["category"] = self.category
         
         return details
     
     def sign_amount(self):
-        return -self._amount
+        return -self.amount
