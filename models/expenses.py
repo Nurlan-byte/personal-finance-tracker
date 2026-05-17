@@ -7,6 +7,10 @@ class Expense(Transaction):
         super().__init__(amount, date)
         self.category = category
         
+    @property
+    def category(self):
+        return self._category    
+        
     def get_details(self):
         details = super().get_details()
         details["type"] = "expense"
