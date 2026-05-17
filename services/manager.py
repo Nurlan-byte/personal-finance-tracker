@@ -2,15 +2,18 @@ class Manager:
     def __init__(self):
         self.transactions = []
 
+    # Add new transaction
     def add_transaction(self, transaction):
         self.transactions.append(transaction)
 
+    # Check if manager has transactions
     def has_transactions(self):
         if len(self.transactions) > 0:
             return True
         else:
             return False
 
+    # Get only expense transactions
     def get_expenses(self):
         expenses = []
 
@@ -20,6 +23,7 @@ class Manager:
 
         return expenses
 
+    # Get only income transactions
     def get_incomes(self):
         incomes = []
 
@@ -29,6 +33,7 @@ class Manager:
 
         return incomes
 
+    # Calculate balance
     def get_balance(self):
         balance = 0
 
@@ -40,6 +45,7 @@ class Manager:
 
         return balance
 
+    # Group expenses by category
     def get_category_breakdown(self):
         result = {}
 
@@ -54,6 +60,7 @@ class Manager:
 
         return result
 
+    # Calculate all expenses
     def get_total_expenses(self):
         total = 0
 
@@ -62,6 +69,7 @@ class Manager:
 
         return total
 
+    # Calculate all incomes
     def get_total_income(self):
         total = 0
 
@@ -70,6 +78,7 @@ class Manager:
 
         return total
 
+    # Check if expenses are higher than limit
     def detect_overspending(self, limit):
         total_expenses = self.get_total_expenses()
 
@@ -80,6 +89,7 @@ class Manager:
             print("No overspending")
             return False
 
+    # Return all finance information
     def get_statistics(self):
         return {
             "total_income": self.get_total_income(),
