@@ -53,11 +53,14 @@ def main():
 
         elif choice == "4":
             print("\n--- STATISTICS & CATEGORIES ---")
-            breakdown = myfinances.get_category_breakdown()
-            if not breakdown:
+            category_rows = myfinances.get_category_report_rows()
+            if not category_rows:
                 print("No expenses found.")
             else:
-                for cat, amount in breakdown.items():
+                categories = myfinances.get_unique_categories()
+                print(f"Unique categories: {len(categories)}")
+                print(f"Categories: {', '.join(sorted(categories))}")
+                for cat, amount in category_rows:
                     print(f"- {cat.capitalize()}: {amount} tenge")
 
         elif choice == "5":
