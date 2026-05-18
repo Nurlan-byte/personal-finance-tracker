@@ -365,21 +365,7 @@ Month Balance:  128500 tenge
 
 | Team Member | Main Contribution |
 | --- | --- |
-| Yussupov Nurlan | Manager logic, statistics, overspending detection, refactoring, tests. |
-| Asylzhan Amangeldi | Manager fixes, transaction loading, calculations, integration. |
-| Bakdaulet Begaliev | Transaction models, data handling, validation support. |
-| Dias Sabit | Command-line interface support, tests, final polishing. |
-
-## Presentation Guide
-
-Recommended slide structure:
-
-1. Problem description.
-2. Main features and demo flow.
-3. Project structure.
-4. OOP design: `Transaction`, `Income`, `Expense`, `Manager`.
-5. Data storage with JSON.
-6. Collections and efficiency decisions.
-7. Testing and edge cases.
-8. Team contribution breakdown.
-9. Future improvements
+| **Yussupov Nurlan** | System architecture, OOP design (Models, Encapsulation, Polymorphism), and integrating all modules together. |
+| **Asylzhan Amangeldi** | Advanced analytical functions (`lambda`, `map`, `filter`), category breakdowns, monthly summary logic. |
+| **Dias Sabit** | File handling (`data_service.py`), JSON serialization/deserialization, and data persistence logic. |
+| **Bakdaulet Begaliev** | Command-line interface (Menu in `main.py`), user interaction, and automated unit testing (`tests/test.py`). |
