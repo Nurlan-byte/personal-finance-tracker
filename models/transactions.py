@@ -1,12 +1,9 @@
 from utils import helpers
 
 class Transaction:
-    _id_counter = 1
     
     def __init__(self,  amount, date=None):
         self._amount = helpers.amount_validate(amount)
-        self.__id = Transaction._id_counter
-        Transaction._id_counter += 1
         self._date = helpers.date_validate(date)
         
         
@@ -20,7 +17,6 @@ class Transaction:
     
     def get_details(self):
         return {
-            "id": self.__id,
             "amount": self._amount,
             "date": self._date
         }
