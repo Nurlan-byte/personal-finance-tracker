@@ -2,6 +2,7 @@ from services.manager import Manager
 from models.incomes import Income
 from models.expenses import Expense
 from services.data_service import save_transactions
+from utils.helpers import date_validate, amount_validate
 
 def print_menu():
     print("\n" + "="*30)
@@ -29,27 +30,35 @@ def main():
 
         elif choice == "2":
             try:
-                amount = float(input("Enter income amount: "))
-                date = input("Enter date (YYYY-MM-DD): ")
+                raw_amount = input("Enter income amount: ")
+                amount = amount_validate(raw_amount)
+                
+                raw_date = input("Enter date (YYYY-MM-DD) or leave empty for today: ").strip()
+                date = date_validate(raw_date)
+                
                 source = input("Enter income source: ")
                 
                 new_income = Income(amount, date, source)
                 myfinances.add_transaction(new_income)
                 print("✓ Income added successfully!")
             except ValueError as e:
-                print(e)
+                print(f"Error: {e}")
 
         elif choice == "3":
             try:
-                amount = float(input("Enter expense amount: "))
-                date = input("Enter date (YYYY-MM-DD): ")
+                raw_amount = input("Enter expense amount: ")
+                amount = amount_validate(raw_amount)
+                
+                raw_date = input("Enter date (YYYY-MM-DD) or leave empty for today: ").strip()
+                date = date_validate(raw_date)
+                
                 category = input("Enter expense category (e.g., food, car): ")
                 
                 new_outcome = Expense(amount, date, category)
                 myfinances.add_transaction(new_outcome)
                 print("✓ Expense added successfully!")
             except ValueError as e:
-                print(e)
+                print(f"Error: {e}")
 
         elif choice == "4":
             print("\n--- STATISTICS & CATEGORIES ---")
@@ -87,7 +96,8 @@ def main():
             change = input("\nDo you want to change the limit? (y/n): ").strip().lower()
             if change == 'y':
                 try:
-                    new_limit = float(input("Enter new overspending limit: "))
+                    raw_limit = input("Enter new overspending limit: ")
+                    new_limit = amount_validate(raw_limit)
                     myfinances.limit = new_limit
                     print(f"✓ Limit successfully updated to {myfinances.limit} tenge!")
                 except ValueError as e:
