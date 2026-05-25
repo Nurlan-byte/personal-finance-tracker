@@ -72,14 +72,12 @@ Transactions are stored in `data/transactions.json`.
 ```json
 [
     {
-        "id": 1,
         "amount": 250000.0,
         "date": "2026-05-01",
         "type": "income",
         "source": "salary"
     },
     {
-        "id": 2,
         "amount": 80000.0,
         "date": "2026-05-02",
         "type": "expense",
