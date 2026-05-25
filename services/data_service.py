@@ -36,13 +36,3 @@ def save_transactions(transactions_list):
         return True
     except Exception:
         return False
-
-if __name__ == "__main__":
-    test_data = [
-        {"type": "expense", "category": "food", "amount": 20, "date": "2026-05-01"},
-        {"type": "income", "amount": 1000, "date": "2026-05-01"}
-    ]
-    print("Saving test data with dates...")
-    print(f"Save result: {save_transactions(test_data)}")
-    print("\nLoading data back...")
-    print(f"Loaded data: {load_transactions()}")
