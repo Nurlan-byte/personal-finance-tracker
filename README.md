@@ -114,7 +114,7 @@ Month Balance:  128500 tenge
 
 | Team Member | Main Contribution |
 | --- | --- |
-| **Yussupov Nurlan** | OOP design сand integrating all modules together. |
+| **Yussupov Nurlan** | OOP design and integration of all modules together. |
 | **Asylzhan Amangeldi** | Advanced analytical functions (`lambda`, `map`, `filter`), category breakdowns, monthly summary logic. |
 | **Dias Sabit** | File handling (`data_service.py`), JSON serialization/deserialization, and data persistence logic. |
 | **Bakdaulet Begaliev** | Command-line interface (Menu in `main.py`), user interaction, and automated unit testing (`tests/test.py`). |
