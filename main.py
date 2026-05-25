@@ -18,7 +18,7 @@ def print_menu():
     print("="*30)
 
 def main():
-    print("Welcome to your personal finance tracker Gnom")
+    print("Welcome to your personal finance tracker")
     myfinances = Manager()
 
     while True:

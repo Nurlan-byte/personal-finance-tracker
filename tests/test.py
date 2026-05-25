@@ -10,28 +10,13 @@ from models.incomes import Income
 from models.expenses import Expense
 from services import data_service
 
-class MockTransaction:
+class MockIncome(Income):
     def __init__(self, amount, date):
-        self.amount = amount
-        self.date = date
+        super().__init__(amount, date, "test")
 
-class MockIncome(MockTransaction):
-    def sign_amount(self):
-        return self.amount
 
-    def get_details(self):
-        return {"type": "income"}
-
-class MockExpense(MockTransaction):
-    def __init__(self, amount, date, category):
-        super().__init__(amount, date)
-        self.category = category
-
-    def sign_amount(self):
-        return -self.amount
-
-    def get_details(self):
-        return {"type": "expense"}
+class MockExpense(Expense):
+    pass
 
 
 class TestFinanceTracker(unittest.TestCase):

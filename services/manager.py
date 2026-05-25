@@ -1,6 +1,7 @@
 from services import data_service
 from models.incomes import Income
 from models.expenses import Expense
+from models.transactions import Transaction
 
 
 class Manager:
@@ -16,10 +17,10 @@ class Manager:
                 
                 if transaction["type"] == "income":
                     new_income = Income(transaction["amount"], transaction["date"], transaction.get("source", "general"))
-                    self.transactions.append(new_income)
+                    self.add_transaction(new_income)
                 elif transaction["type"] == "expense":
                     new_expense = Expense(transaction["amount"], transaction["date"], transaction.get("category", "general"))
-                    self.transactions.append(new_expense)
+                    self.add_transaction(new_expense)
                 else:
                     continue
             except Exception as e:
@@ -33,43 +34,29 @@ class Manager:
         return sum(t.sign_amount() for t in self.transactions)
     
     def add_transaction(self, transaction):
+        if not isinstance(transaction, Transaction):
+            raise ValueError("Only Transaction objects can be added")
+        
         self.transactions.append(transaction)
 
-    def get_type(self, transaction):
-        return transaction.get_details().get("type")
-
-    def get_amount(self, transaction):
-        return transaction.amount
-
     def get_expenses(self):
-        return list(filter(
-            lambda transaction: self.get_type(transaction) == "expense",
-            self.transactions
-        ))
+        return [transaction for transaction in self.transactions if isinstance(transaction, Expense)]
 
     def get_incomes(self):
-        return list(filter(
-            lambda transaction: self.get_type(transaction) == "income",
-            self.transactions
-        ))
+        return [transaction for transaction in self.transactions if isinstance(transaction, Income)]
 
     def get_total_expenses(self):
-        amounts = map(lambda expense: self.get_amount(expense), self.get_expenses())
-        return sum(amounts)
+        return sum(expense.amount for expense in self.get_expenses())
 
     def get_total_income(self):
-        amounts = map(lambda income: self.get_amount(income), self.get_incomes())
-        return sum(amounts)
-
-    def get_balance(self):
-        return self.get_total_income() - self.get_total_expenses()
+        return sum(income.amount for income in self.get_incomes())
 
     def get_category_breakdown(self):
         result = {}
 
         for expense in self.get_expenses():
             category = expense.category
-            amount = self.get_amount(expense)
+            amount = expense.amount
 
             if category in result:
                 result[category] += amount
@@ -108,30 +95,17 @@ class Manager:
         return {
             "total_income": self.get_total_income(),
             "total_expenses": self.get_total_expenses(),
-            "balance": self.get_balance(),
+            "balance": self.balance,
             "category_breakdown": self.get_category_breakdown(),
             "unique_categories": self.get_unique_categories(),
             "category_report_rows": self.get_category_report_rows()
         }
 
     def get_monthly_summary(self, month):
-        month_transactions = list(filter(
-            lambda transaction: transaction.date.startswith(month),
-            self.transactions
-        ))
+        month_transactions = [transaction for transaction in self.transactions if transaction.date.startswith(month)]
 
-        month_income = list(filter(
-            lambda transaction: self.get_type(transaction) == "income",
-            month_transactions
-        ))
-
-        month_expenses = list(filter(
-            lambda transaction: self.get_type(transaction) == "expense",
-            month_transactions
-        ))
-
-        total_income = sum(map(lambda income: income.amount, month_income))
-        total_expenses = sum(map(lambda expense: expense.amount, month_expenses))
+        total_income = sum(income.amount for income in month_transactions if isinstance(income, Income))
+        total_expenses = sum(expense.amount for expense in month_transactions if isinstance(expense, Expense))
 
         return {
             "month": month,
