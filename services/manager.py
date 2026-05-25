@@ -1,3 +1,5 @@
+from calendar import month
+
 from services import data_service
 from models.incomes import Income
 from models.expenses import Expense
@@ -46,10 +48,12 @@ class Manager:
         return [transaction for transaction in self.transactions if isinstance(transaction, Income)]
 
     def get_total_expenses(self):
-        return sum(expense.amount for expense in self.get_expenses())
+        amounts = map(lambda expense: self.get_amount(expense), self.get_expenses())
+        return sum(amounts)
 
     def get_total_income(self):
-        return sum(income.amount for income in self.get_incomes())
+        amounts = map(lambda income: self.get_amount(income), self.get_incomes())
+        return sum(amounts)
 
     def get_category_breakdown(self):
         result = {}
@@ -102,8 +106,7 @@ class Manager:
         }
 
     def get_monthly_summary(self, month):
-        month_transactions = [transaction for transaction in self.transactions if transaction.date.startswith(month)]
-
+        month_transactions = list(filter(lambda transaction: transaction.date.startswith(month),self.transactions))
         total_income = sum(income.amount for income in month_transactions if isinstance(income, Income))
         total_expenses = sum(expense.amount for expense in month_transactions if isinstance(expense, Expense))
 
